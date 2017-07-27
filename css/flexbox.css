@@ -1,0 +1,21 @@
+/*			
+			cabecalhoPrincipal -> PAI
+			container -> FILHO
+	
+	nesse caso especificamos explicitamente que queremos CONTAINER que esta dentro de CABECALHO...
+ou seja, ira aplicar o FLEX a TODOS os FILHOS de container, tudo o que estive dentro desse elemento,
+no caso o H1 e o NAV.
+
+*/
+.cabecalhoPrincipal .container {
+	display: flex;/*indica que iremos usar uma caixa flex*/
+	align-items: center;/*alinha os itens da caixa centralizados VERTICALMENTE*/
+	
+	/*até aqui, todos elementos(H1, nav) estão alinhados um do lado do outro na parte ESQUERDA,
+	isso criou um ESPAÇO em branco na parte DIREITA.*/
+	
+	justify-content: space-between;/*pega todo o ESPAÇO em BRANCO que estiver sobrando, 
+	e divide entre os elementos que estão dentro do flex.*/
+
+	/*agora temos H1 na parte esquerda, o espaço em branco, NAV na parte direita*/
+}
