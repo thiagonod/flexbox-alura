@@ -1,16 +1,72 @@
-/*			
-			cabecalhoPrincipal -> PAI
-			container -> FILHO
+/*	
+Quando colocamos FLEX em algum elemento chamamos esse elemento de FLEX CONTAINER
+
+--FLUXO DO FLEX--
+
+	Uma caixa FLEX(display: flex;) usa por padrão o FLUXO ROW(linha, horizontal), ou seja, ele posiciona seus
+elementos um ao lado do outro em uma linha(tipo inline-block).
+	Podemos mudar esse fluxo de linha para COLUMN(coluna, vertical) para posicionar os elementos da caixa flex
+verticalmente, um embaixo do outro(tipo block).
+	
+		-> flex-direction: column;
+	
+	Assim todos os elementos ficarão alinhados verticalmente em UMA ÚNICA coluna, podendo acontecer desses 
+elemetos "estourarem" o limite de espaço onde eles deviam estar posicionados.
+	Para resolver esse problema podemos dizer para o flex criar outra coluna para cada elemento dentro da 
+caixa, ou que estrapolar o limite definido pelo PAI desse elemento. Definimos o limite com HEIGHT.
+	
+		-> heigh: 250px; por exemplo
+	
+	Então usamos:
+		
+		-> flex-wrap: wrap;
+	
+	Assim, após 250px, o flex cria outra coluna e continua posicionando os elementos. Podemos simplificar 
+toda essa declaração com:
+		
+		-> flex-flow: column wrap;
+	
+	que faz o mesmo que os dois comando acima(flex-direction: column; + flex-wrap: wrap;).
+
+
+--ESPAÇAMENTO DENTRO DE UMA FLEXBOX--
+
+	Usamos justfy-content para DISTRIBUIR o espaço entre os elementos de uma caixa. Podemos distribuir os 
+elementos dentro do pai de diversas formas, podemos por exemplo:
+
+	Colocar todo espaço à esquerda, jogando o conteúdo para direita com 
+		
+		-> justify-content: flex-end;
+
+	Colocar todo espaço à direita, jogando o conteúdo para esquerda com
+
+		-> justify-content: flex-start; (que é o padrão).
+
+	Colocar todo espaço à esquerda e à direita, jogando o conteúdo para o meio com 
+
+		-> justify-content: center;
+
+	Colocar todo espaço entre os elementos como vimos antes usando 
+
+		-> justify-content: space-between;
+
+	E uma possibilidade bem interessante também é colocar o espaço em volta dos elementos. Podemos usar o 
+
+		-> justify-content: space-around; para isso.
+	
+--------------------------------------------------------------------------------------------------------------
+
+	cabecalhoPrincipal -> PAI
+	container -> FILHO
 	
 	nesse caso especificamos explicitamente que queremos CONTAINER que esta dentro de CABECALHO...
 ou seja, ira aplicar o FLEX a TODOS os FILHOS de container, tudo o que estive dentro desse elemento,
 no caso o H1 e o NAV.
 	
 	Sempre devemos colocar o FLEX no PAI para aplicar os efeitos nos FILHOS desse pai.
-
 */
 .cabecalhoPrincipal .container {
-	display: flex;/*indica que iremos usar uma caixa flex*/
+	display: flex;/*indica que iremos usar uma caixa flex, PADRÂO ROW*/
 	align-items: center;/*alinha os itens da caixa centralizados VERTICALMENTE*/
 	
 	/*até aqui, todos elementos(H1, nav) estão alinhados um do lado do outro na parte ESQUERDA,
@@ -21,10 +77,55 @@ no caso o H1 e o NAV.
 
 	/*agora temos H1 na parte esquerda, o espaço em branco, NAV na parte direita*/
 }
-
 .cabecalhoPrincipal-nav {/*adicionado FLEX na nav para alinhar os LINKS(<a>)*/
 	display: flex;
 }
+
+
+
+/* Layout do conteudo principal NOSSOS CURSOS(<nav>) */
+/*pai(<ul>) filhos(<li> <a>)*/
+.conteudoPrincipal-cursos {
+	display: flex;
+	flex-wrap: wrap;
+	/*justify-content: flex-start;*//*Na minha máquina funcionou, no exercício nçao tem.*/
+}
+/*
+quebramos o wigth em 4, porém com uma folga, 100%/4=25%, usamos 23%, assim sobra 2% para cada lado,
+formamos um GRID de 4 colunas, cada uma com 1%23%1%,
+distribuição dos elementos do GRID:
+n1  n2  n3  n4
+n5  n6  n7  n8
+n9  n10 n11 n12
+n13 n14 n...
+até acabar o numero de elementos na caixa flex;
+*/
+/*pai(<li>) filhos(<a>)*/
+.conteudoPrincipal-cursos-link {
+	width: 23%;
+	/*margin: 1%;*//*No exercicio tem essa margem, porem na minha maquina buga o layout*/
+}
+/*Removendo a margem direita de todo 4º elemento no GRID[nth-child(4n)], ou seja, elementos da DIREITA*/
+/*n começa no 0, sendo n0+4=n4, ai vai de 4 em 4 -> n4, n8, n12, n16, n...*/
+.conteudoPrincipal-cursos-link:nth-child(4n) {
+	margin-right: 0;
+}
+/*Removendo a margem esquerda de todo 4º+1 elemento, ou seja 5º, elementos que ficam na ESQUERDA do GRID*/
+/*n começa 0, sendo n0+1=n1, ai vai de 4 em 4 -> n1, n5, n9, n13, n17, n21, n...*/
+.conteudoPrincipal-cursos-link:nth-child(4n+1) {
+	margin-left: 0;
+}
+
+
+/* Layout MAPA DE CURSOS(<nav>)*/
+/*pai(<nav>) filhos(<h4> <a>)*/
+.rodapePrincipal-navMap-list {
+	display: flex;
+	height: 250px;/* altura máxima do elemento(<nav>) */
+	flex-flow: column wrap;/*muda o FLUXO para VERTICAL(column), criando outra coluna a cada 250px*/	
+}
+
+
 
 /* Layout do footer*/
 /*colocando patrocinadores(<ul>) na ESQUERDA, formulário(<form>) na DIREITA*/
@@ -44,4 +145,66 @@ no caso o H1 e o NAV.
 .rodapePrincipal-contatoForm-fieldset {
 	width: 25%;/*deixando 25% da tela para o FORMULÁRIO*/
 	display: flex;/* faz que o ENVIAR(submit) fique da mesma altura do campo EMAIL(type:"email")*/
+}
+
+/*--------------------------PARTE MOBILE------------------------------*/
+/*
+	Para selecionar o que é mobile e o que não é, podemos diferenciar pelo tamanho do display,
+no caso, podemos pegar o width máximo do display, como por exemplo, considerar que até 768px é mobile,
+o que passar disso é desktop.
+	Para isso podemos usar uma MIDIA QUERY -> @media(max-width: 768px)
+
+	Para trabalhar com layout mobile, basicamente temos que trocar tudo que for ROW(linha) para COLUMN(coluna),
+ou seja, trocar o alinhamento dos elementos de "LADO a LADO" para "UM em CIMA do outro", e também, todos os 
+widths para ocupar o display inteiro(width: 100%;).
+*/
+@media(max-width: 768px) {
+	/*Layout header(<nav>), menu de navegação do topo*/
+	.cabecalhoPrincipal-nav {
+	    flex-direction:column;/*mudando <a> de ROW para COLUMN*/
+	}
+	/*Mudando layout dos <h1>, <a1>...dentro da div container*/
+	.cabecalhoPrincipal .container{
+	  flex-direction: column;/*mudando de ROW para COLUMN*/ 
+	  align-items: initial;/*volta ao padrão inicial*/
+	  text-align: center;
+	}
+
+
+	/*Layout conteudo pricipal NOSSOS CURSOS*/
+	/*pai(<ul>) filhos(<li> <a>)*/
+	.conteudoPrincipal-cursos {
+		flex-direction: column;
+	}
+	/*pai(<li>) filhos(<a>)*/
+	.conteudoPrincipal-cursos-link {
+		width: 100%;
+	}
+
+
+	/*Layout MAPA DE CURSOS*/
+	/*ele já esta em COLUMN, basta apenas mudar o limite de comprimento(height) que tinhamos posto 250px*/
+	/*pai(<nav>) filhos(<h4> <a>)*/
+	.rodapePrincipal-navMap-list {
+		height: auto;
+	}
+
+
+	/*Layout FOOTER*/
+	/*pai(container) filhos(logos form)*/
+	.rodapePrincipal-patrocinadores .container {
+		flex-direction: column;
+		align-items: center;
+	}
+	/*LOGOS*/
+	.rodapePrincipal-patrocinadores-list{
+		margin: 0;
+		width: 100%;
+	}
+	/*FORMULÁRIO*/
+	.rodapePrincipal-contatoForm-fieldset {
+		margin: 0;
+		width: 100%;
+		justify-content: center;
+	}
 }
