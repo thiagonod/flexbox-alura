@@ -5,6 +5,8 @@
 	nesse caso especificamos explicitamente que queremos CONTAINER que esta dentro de CABECALHO...
 ou seja, ira aplicar o FLEX a TODOS os FILHOS de container, tudo o que estive dentro desse elemento,
 no caso o H1 e o NAV.
+	
+	Sempre devemos colocar o FLEX no PAI para aplicar os efeitos nos FILHOS desse pai.
 
 */
 .cabecalhoPrincipal .container {
@@ -18,4 +20,28 @@ no caso o H1 e o NAV.
 	e divide entre os elementos que estão dentro do flex.*/
 
 	/*agora temos H1 na parte esquerda, o espaço em branco, NAV na parte direita*/
+}
+
+.cabecalhoPrincipal-nav {/*adicionado FLEX na nav para alinhar os LINKS(<a>)*/
+	display: flex;
+}
+
+/* Layout do footer*/
+/*colocando patrocinadores(<ul>) na ESQUERDA, formulário(<form>) na DIREITA*/
+.rodapePrincipal-patrocinadores .container {
+	display: flex;
+	justify-content: space-between;
+}
+/*Alinhado elementos da <ul> as LOGOS do footer*/
+.rodapePrincipal-patrocinadores-list {
+	width: 70%;/*deixando 70% da tela para as LOGOS*/
+	margin-right: 5%;/*coloca uma margin de 5% entre as logos e o formulário, evita que encostem*/
+ 	display: flex;
+	align-items: center;
+	justify-content: space-around;/*coloca o espaço ENVOLTA dos elementos*/
+}
+/*Alinhando elementos do FORMULÁRIO(<form>) <fieldset> <div>*/
+.rodapePrincipal-contatoForm-fieldset {
+	width: 25%;/*deixando 25% da tela para o FORMULÁRIO*/
+	display: flex;/* faz que o ENVIAR(submit) fique da mesma altura do campo EMAIL(type:"email")*/
 }
