@@ -32,7 +32,10 @@
 				<div2> tinha 100px originalmente, então 100px-2*20px=60px, <div2> vai ter 60px
 				Basicamnete, a <div1> vai ser reduzida 3 vezes e a <div2> 2 vezes.
 				O width de 200px desktop foi para 100px mobile, desses 100px, 40px para <div1> e 60px <div2>.
-				As divs eram do mesmo tamnaho(ambas 100), agora foram reduzidas em uma proporção de 3 pra 2.
+				As divs eram do mesmo tamnaho(ambas 100), agora foram reduzidas proporcionalmente com seu FS,
+		Se você quizer manter a PROPORÇÂO ORIGINAL, 
+		basta:
+	flex-shrink: 0; isso garante que o FI mantenha sua proporção.
 
 	Quando colocamos display: flex em um elemento, o navegador passa a considerar esse elemento como um 
 flex container, ou seja, cria todo aquele comportamento que vimos anteriormente no curso, os filhos ficam 
