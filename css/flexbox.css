@@ -169,6 +169,10 @@ widths para ocupar o display inteiro(width: 100%;).
 	  align-items: initial;/*volta ao padrão inicial*/
 	  text-align: center;
 	}
+	/*Mudando a ordem dos links do menu, colocando link NOSSO APP em 1º*/
+	.cabecalhoPrincipal-nav-link-app {
+		order: -1;/*por padrão, todo elemento tem order 0*/
+	}
 
 
 	/*Layout conteudo pricipal NOSSOS CURSOS*/
