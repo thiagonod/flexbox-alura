@@ -1,5 +1,70 @@
 /*	
-Quando colocamos FLEX em algum elemento chamamos esse elemento de FLEX CONTAINER
+	flex-grow: "N"; -> 	Basicamente, divide o espaço livre do flex container, pelo SOMA de flex-gorws de cada 
+						flex item desse continer, e distribui partes dessa divisão para cada flex item de 
+						acordo com o valor("N") do seu flex-grow. Lembrando que cada flex item de um mesmo 
+						flex container, pode ter seu próprio flex-grow, ou seja, em um caso como esse, seria 
+						como se cada flex item fosse um "biméstre", e cada biméstre tivesse um 
+						"peso(flex-grow)" diferente para calcular a média. 
+				Exemplo:
+				3 flex itens(FI), 	1ºFI tem flex-grow:3;
+									2ºFI tem flex-grow:2;
+									3ºFI tem flex-gorw:1;
+									total de flex-grows(FG) é 6
+
+				Então temos TODO espaço livre(EL) dividido pelo total de FG(EL/6), o resultado dessa 
+				divisão será distribuido para cada FI de acordo com seu FG, ou seja, nesse caso do exemplo
+				será emtrege 3 partes para 1ºFI, 2 partes para o 2ºFI e 1 parte para o 3ºFI, sumpondo que 
+				o resultado da divisão deu 60px, o 1ºFI teria 30px, 2ºFI 20px e o 3ºFI 10px.
+
+	flex-shrink: "N";-> Aqui no FS, você diz quanto o FI irá DIMINUIR de tamanho em relação ao seu tamanho
+						original, levando em conta seu "peso"(flex-shrink"N"). Imagine 2 <DIV>, cada uma com
+						100px de width, total de 200px. Imagine que você trocou o display de DESKTOP para
+						MOBILE, e agora esse total caiu pela metade, cada <div> tem 50px totalizando 100px.
+				Exemplo:
+				2 flex itens(FI), 	1ºFI tem flex-shrink:3;	(<div1>)
+									2ºFI tem flex-shrink:2;	(<div2>)
+							 total de flex-shrinks(FS) é 5
+
+				Foi reduzido 100px do tamanho origianl(200px),temos um espaço reduzido(ER) de 100px,
+				portanto ER/FS(100px/5) que resulta(RES) em 20px. 
+				Agora o 1ºFI(<div1>) vai ser reduzido em seu tamanho original(TO) por FS*RES, ou seja
+				<div1> tinha 100px originalmente, então 100px-3*20px=40px, <div1> vai ter 40px
+				<div2> tinha 100px originalmente, então 100px-2*20px=60px, <div2> vai ter 60px
+				Basicamnete, a <div1> vai ser reduzida 3 vezes e a <div2> 2 vezes.
+				O width de 200px desktop foi para 100px mobile, desses 100px, 40px para <div1> e 60px <div2>.
+				As divs eram do mesmo tamnaho(ambas 100), agora foram reduzidas em uma proporção de 3 pra 2.
+
+	Quando colocamos display: flex em um elemento, o navegador passa a considerar esse elemento como um 
+flex container, ou seja, cria todo aquele comportamento que vimos anteriormente no curso, os filhos ficam 
+um do lado do outro e podemos aplicar propriedades para espaçá-los.
+	Os filhos de um flex container por sua vez também ganham um nome, são chamados de flex items.
+
+	Quando utilizamos flexbox temos que ficar atentos em quem colocamos as propriedades de espaçamento e 
+distribuição do flex. Por exemplo, existem algumas propriedades que devem ser aplicadas à flex container 
+e outras que devem ser aplicadas nos flex items.
+
+	Quais são as propriedades que funcionam SOMENTE nos flex container e quais são as 
+que funcionam nos flex items?
+	
+Seguindo a documentação temos:
+
+	container:
+		display: flex
+		flex-direction
+		justify-content
+		flex-wrap
+		flex-flow
+		align-items
+		align-content
+
+	flex item:
+		order
+		flex-grow
+		flex-shrink
+		flex-basis
+		flex
+		align-self
+
 
 --FLUXO DO FLEX--
 
@@ -117,6 +182,25 @@ até acabar o numero de elementos na caixa flex;
 }
 
 
+/*Layout VIDEO*/
+.videoSobre .container {
+	display: flex;
+}
+.videoSobre-sobre {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 2;/*distribui 2 partes do width total para cada FLEX ITEM do flex container*/
+}
+.videoSobre-sobre-list{
+	flex-grow: 1;
+}
+.videoSobre {
+	flex-grow: 1;
+	flex-shrink: 2;/*diz que esse flexitem  tem que DIMINUIR 2 partes em relação aos outros flexitens*/ 
+}
+
+
 /* Layout MAPA DE CURSOS(<nav>)*/
 /*pai(<nav>) filhos(<h4> <a>)*/
 .rodapePrincipal-navMap-list {
@@ -154,9 +238,9 @@ no caso, podemos pegar o width máximo do display, como por exemplo, considerar 
 o que passar disso é desktop.
 	Para isso podemos usar uma MIDIA QUERY -> @media(max-width: 768px)
 
-	Para trabalhar com layout mobile, basicamente temos que trocar tudo que for ROW(linha) para COLUMN(coluna),
-ou seja, trocar o alinhamento dos elementos de "LADO a LADO" para "UM em CIMA do outro", e também, todos os 
-widths para ocupar o display inteiro(width: 100%;).
+	Para trabalhar com layout mobile, basicamente temos que trocar tudo que for ROW(linha) para 
+COLUMN(coluna), ou seja, trocar o alinhamento dos elementos de "LADO a LADO" para "UM em CIMA do outro", 
+e também, todos os widths para ocupar o display inteiro(width: 100%;).
 */
 @media(max-width: 768px) {
 	/*Layout header(<nav>), menu de navegação do topo*/
@@ -183,6 +267,15 @@ widths para ocupar o display inteiro(width: 100%;).
 	/*pai(<li>) filhos(<a>)*/
 	.conteudoPrincipal-cursos-link {
 		width: 100%;
+	}
+
+	
+	/*Layout VIDEO*/
+	.videoSobre .container {
+		flex-direction: column;
+	}
+	.videoSobre-video {
+		margin: 0 auto; /*top bottom = 0 | left right = auto*/
 	}
 
 
